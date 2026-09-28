@@ -17,6 +17,10 @@ Never run a commit command on your own.
 
 Run a commit only after the user tells you to commit, in clear words.
 
+"Minimal", "fresh repo", "first commit only", and "just this once" are reasons that do not open this rule. They are reasons to ask.
+
+Never break this rule and then argue for the break. Do not defend the act after the fact. If you think a rule needs a limit, ask before you act, then wait for the answer.
+
 When the user does tell you to commit, then and only then:
 
 1. Read the diff with `git diff` and `git diff --cached` first.
@@ -87,7 +91,36 @@ A new bug must never land in code that already worked. A new bug inside the new 
 
 Never delete a test to make a suite pass. Never skip a test to save time. Never change a test to match wrong new behavior.
 
-Never commit secrets, keys, tokens, or personal names into source.
+### Detect personal data before any commit
+
+Never put personal data into source. Personal data means any of these:
+
+- a secret, key, token, or password
+- a name that identifies a person, including the user, their employer, and their colleagues
+- an employer name, a job title, a workplace, or any part of an employment history
+- a date of birth, a home address, a phone number, or a personal email
+- a private repository name, a private file path, or a file name from the user's own machine
+- anything else that can name, place, or trace back to one real person
+
+Run this check whenever the user tells you to commit, and also when you create a file that a git repo tracks.
+
+How to run the check:
+
+1. Read the staged content with `git diff --cached`. Read the new files too.
+2. Search it for the items listed above. Search comments and strings, not only code.
+3. Look for these shapes: `sk-`, `ghp_`, `AKIA`, `-----BEGIN`, `api_key`, `secret`, `password`, `token`, a long base64 or hex string, an email address, a real path from the user's machine.
+4. Compare against a denylist. Read the names from the user's own data, not from a list written into the repo.
+5. Stop and report any hit. Name the file and the line.
+
+If the check finds a hit:
+
+- Do not commit.
+- Report the file, the line, and the kind of data.
+- Offer a replacement, such as a fictional name or a value from a `.example` file.
+- Never write the personal name into a commit body or a commit message.
+
+A false alarm costs one question. A leak costs the user their job or their money. When unsure, stop and ask.
+
 
 ---
 
@@ -159,7 +192,16 @@ https://asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf
 
 ---
 
-## 4. Replies
+## 4. Never state what you have not checked
+
+Do not report a fact you did not read from a command.
+
+- Run the check, then state the result.
+- If you have not run the check, say so. Say "I have not checked this".
+- Never write a state as fact on the strength of a guess, a memory, or what you expect to be true.
+- A wrong fact about a file, a commit, or a test is as bad as a wrong fact about the work. Report only what you saw.
+
+## 5. Replies
 
 - Give the result first. Then the reason. Then the detail.
 - Use a short list when you have more than 2 items.
@@ -168,3 +210,4 @@ https://asd-ste100.org/assets/files/ASD-STE100_ISSUE9.pdf
 - State what you could not verify.
 - Do not praise your own work. Do not apologize for work that is correct.
 - Do not use headings for a reply of less than 3 paragraphs.
+- When you were wrong, say so in one line. Do not explain why you were wrong for a page.
