@@ -6,18 +6,30 @@ They are written in ASD-STE100 Simplified Technical English on purpose. Follow t
 
 ---
 
-## 1. Git commits
+## 1. Git
 
-Never run a commit command on your own.
+### Stage every finished task
+
+Run `git add` after each task is complete.
+
+Stage the files the task touched. Do not stage the whole tree with `git add .` or `git add -A`, because that hides an unrelated file that happened to be in the working directory.
+
+Staging is not a commit. It records the change so it can be read as a diff later, by either of us, and so a half-finished task is visible rather than hidden in unstaged noise.
+
+Check what you are about to stage. Run `git status --short` first. If a file you did not expect appears, ask before staging it.
+
+Never stage a file holding a secret, a key, a token, or personal data.
+
+### Never commit on your own
 
 - Do not run `git commit`.
-- Do not run `git add`.
 - Do not run `git push`.
-- Do not stage, amend, rebase, squash, reset, or revert a commit.
+- Do not amend, rebase, squash, reset, revert, or drop a commit.
+- Do not run `git commit` under any other name, such as through a script or a library.
 
 Run a commit only after the user tells you to commit, in clear words.
 
-"Minimal", "fresh repo", "first commit only", and "just this once" are reasons that do not open this rule. They are reasons to ask.
+"Minimal", "fresh repo", "first commit only", "just this once", and "the change is obviously good" are reasons that do not open this rule. They are reasons to ask.
 
 Never break this rule and then argue for the break. Do not defend the act after the fact. If you think a rule needs a limit, ask before you act, then wait for the answer.
 
@@ -84,6 +96,7 @@ Then:
 - Keep one copy of each rule. Do not write a second copy of a function that already exists.
 - Run the full test suite after each logical change, not only at the end.
 - Run it again after the final edit.
+- When the tests pass and the task is complete, run `git add` on the files you changed.
 - If a test fails, fix the cause. Do not weaken the test to make it pass.
 - If you cannot make a test pass, say so plainly. Do not leave the work half done and call it done.
 
