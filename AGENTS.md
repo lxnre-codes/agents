@@ -2,6 +2,10 @@
 
 These rules apply to every session, in every project.
 
+Read this file in full before the first task of a session. Do not take these rules from a session summary, a checkpoint, or a memory of an earlier session. A summary can lose a rule, and a lost rule is a rule that was never there.
+
+Then write one line that restates the git rules: the allowed verbs, and the fact that a commit needs the word commit in the operator's latest message.
+
 They are written in ASD-STE100 Simplified Technical English on purpose. Follow the same style in your output.
 
 ---
@@ -27,17 +31,52 @@ Never stage a file holding a secret, a key, a token, or personal data.
 - Do not amend, rebase, squash, reset, revert, or drop a commit.
 - Do not run `git commit` under any other name, such as through a script or a library.
 
-Run a commit only after the user tells you to commit, in clear words.
+Without a fresh instruction, run only these git verbs:
+
+- `git status`
+- `git diff`
+- `git log`
+- `git show`
+- `git ls-files`
+- `git add`
+
+Every other verb needs the operator's word. That list includes `commit`, `push`, `reset`, `rebase`, `amend`, `checkout`, `restore`, `stash`, `clean`, and `filter-branch`.
+
+### The word commit must be in the latest message
+
+Read only the operator's most recent message. An instruction to commit expires when the next message arrives.
+
+An earlier message does not carry forward. A later instruction to fix a fault does not renew it.
+
+Fixing and committing are two permissions. "Start fixing", "go ahead", "do it", and "fix the faults" authorise editing and testing only.
 
 "Minimal", "fresh repo", "first commit only", "just this once", and "the change is obviously good" are reasons that do not open this rule. They are reasons to ask.
 
 Never break this rule and then argue for the break. Do not defend the act after the fact. If you think a rule needs a limit, ask before you act, then wait for the answer.
+
+### Staged is the terminal state
+
+Staged is the end of your work. Never run `git commit` because a task looks finished.
+
+A green test suite, a clean diff, and one coherent change mean the work is ready for the operator to look at. They do not mean the work is committed. No amount of greenness completes anything.
 
 When the user does tell you to commit, then and only then:
 
 1. Read the diff with `git diff` and `git diff --cached` first.
 2. Write one commit for one logical change. Keep the change small and whole.
 3. Use Conventional Commits.
+
+### Name an irreversible action before you take it
+
+An irreversible action is one that a later command cannot undo by deleting a file. It includes:
+
+- a git verb outside the allowed list
+- a write outside the workspace
+- any act that sends data off the machine
+
+Before such an action, write one line that names the action and the authority for it. Then wait for the answer.
+
+The line is not a formality. It puts the decision in the transcript before the act, so the operator can stop it.
 
 ### Conventional Commits format
 
@@ -81,8 +120,36 @@ Before you change any file, do all of these steps:
 1. Run `git status` and `git log --oneline -20`. Read the state, do not guess it.
 2. Read the files that the task touches, and the files that call them.
 3. Find the tests that cover the area. Read them. They are the record of what must not break.
-4. State the plan to the user in short sentences before you write code.
+4. State the plan in short sentences before you write code.
 5. State what could break, and how you will check it.
+
+Steps 4 and 5 must sit in a message with no tool call in it, and you must wait for the answer. This applies to work the operator has not already approved.
+
+If the operator's latest message approves the scope, state steps 4 and 5, then act in the same message. Do not wait twice for work the operator already asked for.
+
+Reading, searching, and running tests never need this gate. A first write of any kind needs it.
+
+### The operator sets the scope
+
+Work the operator did not ask for is a proposal, not a task. Write the proposal. Then stop.
+
+Judging a change valuable, obvious, or necessary is not permission. If the operator would want it, that is a reason to say so and wait.
+
+Do not widen a task because a fault is visible nearby. Name the fault. Offer it as separate work.
+
+### Urgency raises the bar, it does not lower it
+
+A failing run, a crash, or a deadline raises the threshold for acting without an instruction.
+
+Report the cause and the plan. Then wait. Never act on the words "this is obviously needed".
+
+### Do not become slow to work
+
+These rules control permission, not initiative.
+
+Fix a fault the operator asked you to fix. Test it. Stage it. Report it. Do not ask for permission at each step of approved work.
+
+Ask only where a rule in this file says to ask.
 
 ### Do not break working code
 
